@@ -1,25 +1,38 @@
 <div class="container">
     <div class="input-cell">
-        <mat-form-field class="xpath-input">
-            <input #xpath matInput placeholder="expression" value="self/child[lab=2]" (keyup.enter)="compile(xpath.value)">
-            <mat-hint align="end">press Enter for evaluation</mat-hint>
-        </mat-form-field>
+        <mat-card>
+            <mat-card-content>
+                <mat-form-field class="xpath-input">
+                    <input #xpath matInput placeholder="expression" value="self/child[lab=2]" (keyup.enter)="compile(xpath.value)">
+                    <mat-hint align="end">press Enter for evaluation</mat-hint>
+                </mat-form-field>
+                <section class="example-section" *ngIf="loading">
+                    <mat-progress-bar
+                        class="example-margin"
+                        [color]="primary"
+                        [mode]="progressBarValue"
+                        [value]="50"
+                        [bufferValue]="75">
+                    </mat-progress-bar>
+                </section>
+            </mat-card-content>
+        </mat-card>
     </div>
     <div class="svg-cell">
         <div class="xpath-cell" id ="xpath-cell">
         </div>
         <div class="graph-cell" id="graph-cell">
         </div>
-        <svg style="border: none" height="50" width="1400">
+        <svg class="legend-cell" height="50" width="100%">
             <circle cx="60%" cy="20" r="10" fill="rgb(174,199,232)"/>
             <circle cx="60%" cy="20" r="15" stroke="rgba(100, 140, 50, 0.80)" fill="rgba(20, 150, 200, 0.15)"/>
-            <text x="63%" y="25" fill="black" class="caption"> - Start</text>
+            <text x="62%" y="25" fill="black" class="caption">Start</text>
 
             <circle cx="70%" cy="20" r="10" fill="rgb(249,149,0)"/>
-            <text x="72%" y="25" fill="black" class="caption"> - Part of result</text>
+            <text x="72%" y="25" fill="black" class="caption">Part of result</text>
 
             <circle cx="85%" cy="20" r="10" fill="rgb(174,199,232)"/>
-            <text x="87%" y="25" fill="black" class="caption"> - Not Part of result</text>
+            <text x="87%" y="25" fill="black" class="caption">Not Part of result</text>
         </svg>
     </div>
 </div>

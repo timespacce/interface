@@ -68,12 +68,17 @@ export class AppComponent {
   private screenHeight
   private width
   private height
+  private svgPaddingUnit
 
-  constructor(private service: PhoenixService) { 
+  public loading: boolean = false
+  public progressBarValue = 'determinate'
+
+  constructor(private service: PhoenixService) {
     this.screenWidth = window.screen.width
     this.screenHeight = window.screen.height
-    this.width = this.screenWidth / 2.15
-    this.height = this.screenHeight / 1.5
+    this.width = (this.screenWidth * 0.93) / 2.0
+    this.svgPaddingUnit = (this.screenWidth * 0.04) / 4.0
+    this.height = (this.screenHeight / 1.50) - 50
   }
 
   onKey(value: string) {
@@ -87,8 +92,11 @@ export class AppComponent {
 
     var svg = d3.select("#graph-cell")
       .append("svg")
+      .attr("class", "svg-graph")
       .attr("width", this.width).attr("height", this.height)
       .attr("id", this.GRAPH_ID)
+      .style("margin-right", this.svgPaddingUnit)
+      .style("margin-left", this.svgPaddingUnit)
 
     //var color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -242,8 +250,11 @@ export class AppComponent {
 
     var svg = d3.select("#xpath-cell")
       .append("svg")
+      .attr("class", "svg-tree")
       .attr("width", this.width).attr("height", this.height)
-      .attr("id", this.XPATH_ID);
+      .attr("id", this.XPATH_ID)
+      .style("margin-left", this.svgPaddingUnit)
+      .style("margin-right", this.svgPaddingUnit)
     
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -319,18 +330,23 @@ export class AppComponent {
     this.showGraph()
   }
 
-  private compile(expression: string) {
+  public compile(expression: string) {
     console.info('APP-COMPONENT : loaded')
 
     let body = {expression: expression, start: this.selectedId, nodes: this.nodes, links: this.links }
 
     console.info(body)
 
+    this.loading = true
+    this.progressBarValue = 'indeterminate'
+
     this.service.getGraph(body)
       .subscribe(response => {
         console.log(response)
         this.drawTree(response.xpath)
         this.draw(response.result.nodes, response.result.links)
+        this.loading = false
+        this.progressBarValue = 'determinate'
       })
   }
 

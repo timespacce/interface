@@ -6,7 +6,8 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class PhoenixService {
 
-    prefix: string = 'http://localhost:4000'
+    prefix_local: string = 'http://localhost:4000'
+    prefix_remote: string = 'https://tranquil-sands-58720.herokuapp.com/'
 
     compile: string = '/Compile'
 
@@ -15,6 +16,6 @@ export class PhoenixService {
     getGraph(body): Observable<any> {
         let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json')
         //let par: HttpParams = new HttpParams().set('expression', expression)
-        return this.http.post(this.prefix + this.compile, body, { headers: headers })
+        return this.http.post(this.prefix_local + this.compile, body, { headers: headers })
     }
 }

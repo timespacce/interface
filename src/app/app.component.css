@@ -31,9 +31,8 @@
     display: inline;
 }
 
-svg {
-    border: 1px solid grey;
-    margin: 10px;
+.legend-cell {
+    
 }
 
 .xpath-input {
@@ -43,10 +42,22 @@ svg {
 .input-cell {
     padding-left: 10px;
     padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 40px;
+    padding-bottom: 15px;
+    padding-right: 10px;
 }
 
 .caption {
     font-family: sans-serif;
+}
+
+.example-section {
+    margin-top: 15px;
+}
+
+.svg-tree {
+    border: 1px solid grey;
+}
+
+.svg-graph {
+    border: 1px solid grey;
 }
