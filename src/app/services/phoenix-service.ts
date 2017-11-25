@@ -16,6 +16,6 @@ export class PhoenixService {
     getGraph(body): Observable<any> {
         let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json')
         //let par: HttpParams = new HttpParams().set('expression', expression)
-        return this.http.post(this.prefix_local + this.compile, body, { headers: headers })
+        return this.http.post(this.prefix_remote + this.compile, body, { headers: headers })
     }
 }
