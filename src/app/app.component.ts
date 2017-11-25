@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core'
+import { MatSnackBar } from '@angular/material'
 import { HttpClient } from '@angular/common/http'
 import { PhoenixService } from './services/phoenix-service'
 
@@ -73,7 +74,7 @@ export class AppComponent {
   public loading: boolean = false
   public progressBarValue = 'determinate'
 
-  constructor(private service: PhoenixService) {
+  constructor(private service: PhoenixService, public snackBar: MatSnackBar) {
     this.screenWidth = window.screen.width
     this.screenHeight = window.screen.height
     this.width = (this.screenWidth * 0.93) / 2.0
@@ -260,7 +261,7 @@ export class AppComponent {
 
     var i = 0, duration = 750, root
 
-    var treemap = d3.tree().size([this.width / 2, this.height / 2])
+    var treemap = d3.tree().size([this.width, this.height])
 
     var nodes = d3.hierarchy(tree)
 
@@ -291,6 +292,7 @@ export class AppComponent {
         .attr("dy", ".35em")
         .attr("y", function(d) { return d.children ? -20 : 20 })
         .style("text-anchor", "middle")
+        .style("font-family", "Arial")
         .text(function(d) { return Number.isInteger(d.data.name) ? d.data.name : d.data.name.replace("Elixir.", "") })
 
     var dragHandler = d3.drag()
@@ -347,6 +349,12 @@ export class AppComponent {
         this.draw(response.result.nodes, response.result.links)
         this.loading = false
         this.progressBarValue = 'determinate'
+        this.snackBar.open('Expression has been compiled and evaluated.', undefined, { duration: 1000 })
+      }, error => {
+        console.info(error)
+        this.loading = false
+        this.progressBarValue = 'determinate'
+        this.snackBar.open(error.error, 'OK')
       })
   }
 
