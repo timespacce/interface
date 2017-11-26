@@ -328,6 +328,31 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
+    this.nodes = []
+    this.links = []
+
+    for(let i = 1; i <= 30; i++) {
+      this.nodes.push({"id": i, "group": '#aec7e8'})
+    }
+
+    let lowerGrade = 1, upperGrade = 5
+    let grade = Math.floor(Math.random() * (upperGrade - lowerGrade + 1) + lowerGrade)
+    let min = 2, max = min + grade, minScale = min, maxScale = max
+    let population = 30 - 1, index = 1
+
+    while(population > 0) {
+      for(let j = min; j < max; j++) {
+        this.links.push({"source": index, "target": j, "value": 1})
+        minScale++
+      }
+
+      index += 1
+      population -= (max - min)
+      min = minScale
+      max += Math.min(Math.floor(Math.random() * (upperGrade - lowerGrade + 1) + lowerGrade), population)
+    }
+
+
     this.drawTree(this.tree)
     this.showGraph()
   }
